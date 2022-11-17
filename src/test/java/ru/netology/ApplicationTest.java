@@ -1,5 +1,6 @@
 package ru.netology;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,13 +16,12 @@ public class ApplicationTest {
     private WebDriver driver;
 
     @BeforeAll
-    static void configureWebdriver(){
-        System.setProperty("webdriver.chrome.driver", "drivers/win/chromedriver.exe");
+    public static void setup() {
+        WebDriverManager.chromedriver().setup();
     }
 
     @BeforeEach
-
-    void createBrowser(){
+    void createBrowser() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--no-sandbox");
@@ -30,8 +30,7 @@ public class ApplicationTest {
     }
 
     @Test
-
-    void shouldSubmitRequest(){
+    void shouldSubmitRequest() {
         driver.get("http://localhost:9999");
         driver.findElement(By.cssSelector("[data-test-id = name] input")).sendKeys("Иван Петров");
         driver.findElement(By.cssSelector("[data-test-id = phone] input")).sendKeys("+79990009999");
@@ -43,8 +42,7 @@ public class ApplicationTest {
     }
 
     @AfterEach
-
-    void tearDown(){
+    void tearDown() {
         driver.quit();
         driver = null;
     }
